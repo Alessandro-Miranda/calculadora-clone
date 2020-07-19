@@ -7,3 +7,5 @@ O foco do projeto foi criar somente o script
 
 ## Overview
 ![](https://github.com/Alessandro-Miranda/calculadora-clone/blob/master/screenshots/screenshot.png)
+
+![](https://github.com/Alessandro-Miranda/calculadora-clone/blob/master/screenshots/gif.gif)
