@@ -61,37 +61,39 @@ class CalcController
                 break;
 
             case 'soma':
-                this.addOperation(parseInt(this.lastNumber));
+                // this.addOperation(parseInt(this.lastNumber));
                 this.addOperation('+');
-                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastOperator = '+';
+                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastNumber = 0;
                 
                 break;
 
             case 'subtracao':
-                this.addOperation(parseInt(this.lastNumber));
+                // this.addOperation(parseInt(this.lastNumber));
                 this.addOperation('-');
-                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastOperator = '-';
+                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastNumber = 0;
 
                 break;
 
             case 'multiplicacao':
-                this.addOperation(parseInt(this.lastNumber));
+                // debugger
+                // this.addOperation(parseInt(this.lastNumber));
                 this.addOperation('x');
-                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastOperator = '*';
+                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastNumber = 0;
                 
                 break;
 
             case 'divisao':
-                this.addOperation(parseInt(this.lastNumber));
+                // this.addOperation(parseInt(this.lastNumber));
+                debugger
                 this.addOperation('/');
-                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastOperator = '/';
+                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastNumber = 0;
                 
                 break;
@@ -112,10 +114,11 @@ class CalcController
                 break;
 
             case 'igual':
+                // debugger
                 this.getResult(this.lastNumber, this.lastOperator);
                 this.displayCalc = this.result[this.result.length - 1];
-                this.lastNumber = this.result[this.result.length - 1]
-                this.result = this.clearResult();
+                // this.lastNumber = this.result[this.result.length - 1];
+                // this.result = this.clearResult();
                 
                 break;
 
@@ -184,7 +187,7 @@ class CalcController
         {
             this.lastNumber /= 100;
             this.addOperation(parseFloat(this.lastNumber));
-            this.addOperation('*');
+            // this.addOperation('*');
             this.lastOperator = '*';
             this.displayCalc = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
         }
@@ -192,6 +195,18 @@ class CalcController
         {
             this.displayCalc = eval(this.result[this.result.length - 1] + operator + value);
             this.result = eval(this.result[this.result.length - 1] + operator + value);
+            
+            if(this.lastNumber != 0)
+            {
+                this.addOperation(operator + value);
+            }
+            else if(this.lastNumber == 0)
+            {
+                
+                this.displayCalc = eval(this.result[this.result.length - 1] + this._operation[this._operation.length - 1]);
+                this.result = eval(this.result[this.result.length - 1] + this._operation[this._operation.length - 1]);
+            }
+            this.lastNumber = 0;
         }
     }
     clearResult()
