@@ -186,7 +186,6 @@ class CalcController
         else if(operator == '%')
         {
             this.lastNumber /= 100;
-            // this.addOperation(parseFloat(this.lastNumber));
             this.addOperation('*');
             this.lastOperator = '*';
             this.displayCalc = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
