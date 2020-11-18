@@ -166,9 +166,9 @@ class CalcController
     /*Método para limpar tudo da calucladora*/
     clearAll()
     {
-        this._operation = [];
+        this._operation.length = 0;
         this.lastNumber = 0;
-        this.result = [];
+        this.result.length = 0;
         this.displayCalc = this.lastNumber;
     }
     clearEntry()
@@ -196,12 +196,11 @@ class CalcController
             // this.addOperation(parseFloat(this.lastNumber));
             this.addOperation('*');
             this.lastOperator = '*';
-            this.result = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
             this.displayCalc = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
+            this.result = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
         }
         else
         {
-            
             if(this.lastNumber != 0)
             {
                 this.result = eval(this.result[this.result.length - 1] + operator + value);
