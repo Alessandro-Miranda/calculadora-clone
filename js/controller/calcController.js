@@ -9,7 +9,7 @@ class CalcController
         this._dateEl = document.querySelector("#data");
         this._locale = "pt-BR";
         this._operation = [];
-        this._lastNumber = '0';
+        this._lastNumber = 0;
         this._result = [];
         this._lastOperator = "";
         this.initialize();
@@ -90,12 +90,13 @@ class CalcController
 
             case 'divisao':
                 // this.addOperation(parseInt(this.lastNumber));
-                debugger
                 this.addOperation('/');
+                if(this.lastNumber != 0)
+                {
+                    this.getResult(this.lastNumber, this.lastOperator);
+                }
                 this.lastOperator = '/';
-                this.getResult(this.lastNumber, this.lastOperator);
                 this.lastNumber = 0;
-                
                 break;
 
             case 'porcento':
@@ -114,7 +115,6 @@ class CalcController
                 break;
 
             case 'igual':
-                // debugger
                 this.getResult(this.lastNumber, this.lastOperator);
                 this.displayCalc = this.result[this.result.length - 1];
                 // this.lastNumber = this.result[this.result.length - 1];
@@ -123,14 +123,21 @@ class CalcController
                 break;
 
             case 'ponto':
-                this.lastNumber += '.';
+                if(this.lastNumber == 0)
+                {
+                    this.lastNumber += '.'; 
+                }
+                else
+                {
+                    this.lastNumber += '.';
+                }
                 this.displayCalc = this.lastNumber;
                 
                 break;
 
             case '0': case '1': case '2': case '3': case '4': case '5':
             case '6': case '7': case '8': case '9':
-                if(this.lastNumber == 0)
+                if(this.lastNumber === 0)
                 {
                     this.lastNumber = value;
                 }
@@ -186,28 +193,28 @@ class CalcController
         else if(operator == '%')
         {
             this.lastNumber /= 100;
-            this.addOperation(parseFloat(this.lastNumber));
-            // this.addOperation('*');
+            // this.addOperation(parseFloat(this.lastNumber));
+            this.addOperation('*');
             this.lastOperator = '*';
+            this.result = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
             this.displayCalc = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
         }
         else
         {
-            this.displayCalc = eval(this.result[this.result.length - 1] + operator + value);
-            this.result = eval(this.result[this.result.length - 1] + operator + value);
             
             if(this.lastNumber != 0)
             {
+                this.result = eval(this.result[this.result.length - 1] + operator + value);
                 this.addOperation(operator + value);
             }
             else if(this.lastNumber == 0)
             {
-                
-                this.displayCalc = eval(this.result[this.result.length - 1] + this._operation[this._operation.length - 1]);
-                this.result = eval(this.result[this.result.length - 1] + this._operation[this._operation.length - 1]);
+                this.displayCalc = eval(this.result[this.result.length - 1] + "" + this._operation[this._operation.length - 1]);
+                this.result = eval(this.result[this.result.length - 1] + "" + this._operation[this._operation.length - 1]);
             }
-            this.lastNumber = 0;
+            this.displayCalc = eval(this.result[this.result.length - 1] + operator + value);
         }
+        this.lastNumber = 0;
     }
     clearResult()
     {
