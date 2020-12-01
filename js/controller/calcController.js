@@ -16,7 +16,17 @@ class CalcController
         this.initButtonsEvents();
         this.initKeyBoard();
     }
-    
+    copyToClipboard()
+    {
+        let input = document.createElement("input");
+        input.value = this.displayCalc;
+
+        document.body.appendChild(input);
+
+        input.select();
+
+        document.execCommand("Copy");
+    }
     initialize()
     {
         this.setDisplayDateTime();
@@ -96,6 +106,7 @@ class CalcController
                         break;
     
                     case 'Enter':
+                    case '=':
                         this.getResult(this.lastNumber, this.lastOperator);
                         this.displayCalc = this.result[this.result.length - 1];
                         
@@ -140,7 +151,11 @@ class CalcController
                         this.displayCalc = this.lastNumber;
                         
                         break;
-    
+                    
+                    case 'c':
+                        if(e.ctrlKey) this.copyToClipboard;
+                        break;
+
                     default:
                         this.setError();
                         
