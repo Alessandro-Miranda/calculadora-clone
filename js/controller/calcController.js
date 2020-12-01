@@ -14,6 +14,7 @@ class CalcController
         this._lastOperator = "";
         this.initialize();
         this.initButtonsEvents();
+        this.initKeyBoard();
     }
     
     initialize()
@@ -38,6 +39,113 @@ class CalcController
             this.addEventListenerAll(btn, 'mouseover mouseup mousedown', () => {
                 btn.style.cursor = 'pointer';
             })
+        })
+    }
+    /*Método para inicializar os eventos de teclado*/
+    initKeyBoard()
+    {
+        document.addEventListener("keyup", e=>{
+            
+            if(!isNaN(e.key) || e.key == "/" || e.key == "*" || e.key == "-" || e.key == "+" || e.key == "Enter" || e.key == "%" || e.key == "," || e.key == ".")
+            {
+                switch(e.key)
+                {
+                    case 'Escape':
+                        this.clearAll();
+                        break;
+    
+                    case 'Backspace':
+                        this.clearEntry();
+                        break;
+    
+                    case '+':
+                    case '-':
+                    case '*':
+    
+                        this.addOperation(e.key);
+                        this.lastOperator = e.key;
+                        this.getResult(this.lastNumber, this.lastOperator);
+                        this.lastNumber = 0;
+                        
+                        break;
+    
+                    case '/':
+                        this.addOperation('/');
+                        if(this.lastNumber != 0)
+                        {
+                            this.getResult(this.lastNumber, this.lastOperator);
+                        }
+                        this.lastOperator = '/';
+                        this.lastNumber = 0;
+                        break;
+    
+                    case '%':
+                        if(this._operation.length == 0)
+                        {
+                            this.displayCalc = 0;
+                            this.lastNumber = 0;
+                            this.lastOperator = '';
+                            this.result = this.clearResult();
+                        }
+                        else
+                        {
+                            this.getResult(this.lastNumber, '%');
+                        }    
+                        
+                        break;
+    
+                    case 'Enter':
+                        this.getResult(this.lastNumber, this.lastOperator);
+                        this.displayCalc = this.result[this.result.length - 1];
+                        
+                        break;
+    
+                    case '.':
+                    case ',':
+                        if(this.lastNumber == 0 && this.lastNumber.toString().length === 1)
+                        {
+                            this.lastNumber += '.';
+                        }
+                        else if(this.lastNumber.indexOf(".") === -1)
+                        {
+                            this.lastNumber += '.';
+                        }
+                        else
+                        {
+                            return;
+                        }
+                        this.displayCalc = this.lastNumber;
+                        
+                        break;
+    
+                    case '0': case '1': case '2': case '3': case '4': case '5':
+                    case '6': case '7': case '8': case '9':
+                        if(this.lastNumber === 0)
+                        {
+                            this.lastNumber = e.key;
+                        }
+                        else if(this._operation.length == 0 && this.lastNumber.length < 10)
+                        {
+                            this.lastNumber += e.key;
+                        }
+                        else if(isNaN(this._operation[this._operation.length - 1]) && this.lastNumber.length < 10)
+                        {
+                            this.lastNumber += e.key;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                        this.displayCalc = this.lastNumber;
+                        
+                        break;
+    
+                    default:
+                        this.setError();
+                        
+                        break;
+                }
+            }
         })
     }
     /*Função para aplicar mais de um evento no botão*/
