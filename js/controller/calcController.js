@@ -46,7 +46,8 @@ class CalcController
     {
         document.addEventListener("keyup", e=>{
             
-            if(!isNaN(e.key) || e.key == "/" || e.key == "*" || e.key == "-" || e.key == "+" || e.key == "Enter" || e.key == "%" || e.key == "," || e.key == ".")
+            if(!isNaN(e.key) || e.key == "/" || e.key == "*" || e.key == "-" || e.key == "+" || e.key == "Enter" || e.key == "%" || e.key == "," || e.key == "." ||
+            e.key == "Escape" || e.key == "Backspace")
             {
                 switch(e.key)
                 {
