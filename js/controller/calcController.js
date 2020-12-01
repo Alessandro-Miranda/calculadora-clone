@@ -116,13 +116,17 @@ class CalcController
                 break;
 
             case 'ponto':
-                if(this.lastNumber == 0)
+                if(this.lastNumber == 0 && this.lastNumber.toString().length === 1)
                 {
-                    this.lastNumber += '.'; 
+                    this.lastNumber += '.';
+                }
+                else if(this.lastNumber.indexOf(".") === -1)
+                {
+                    this.lastNumber += '.';
                 }
                 else
                 {
-                    this.lastNumber += '.';
+                    return;
                 }
                 this.displayCalc = this.lastNumber;
                 
