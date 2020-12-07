@@ -20,12 +20,14 @@ class CalcController
     {
         let input = document.createElement("input");
         input.value = this.displayCalc;
-
+        
         document.body.appendChild(input);
 
         input.select();
 
         document.execCommand("Copy");
+
+        input.remove();
     }
     initialize()
     {
@@ -56,111 +58,102 @@ class CalcController
     {
         document.addEventListener("keyup", e=>{
             
-            if(!isNaN(e.key) || e.key == "/" || e.key == "*" || e.key == "-" || e.key == "+" || e.key == "Enter" || e.key == "%" || e.key == "," || e.key == "." ||
-            e.key == "Escape" || e.key == "Backspace")
+            switch(e.key)
             {
-                switch(e.key)
-                {
-                    case 'Escape':
-                        this.clearAll();
-                        break;
+                case 'Escape':
+                    this.clearAll();
+                    break;
     
-                    case 'Backspace':
-                        this.clearEntry();
-                        break;
+                case 'Backspace':
+                    this.clearEntry();
+                    break;
     
-                    case '+':
-                    case '-':
-                    case '*':
+                case '+':
+                case '-':
+                case '*':
     
-                        this.addOperation(e.key);
-                        this.lastOperator = e.key;
+                    this.addOperation(e.key);
+                    this.lastOperator = e.key;
+                    this.getResult(this.lastNumber, this.lastOperator);
+                    this.lastNumber = 0;
+                        
+                    break;
+    
+                case '/':
+                    this.addOperation('/');
+                    if(this.lastNumber != 0)
+                    {
                         this.getResult(this.lastNumber, this.lastOperator);
+                    }
+                    this.lastOperator = '/';
+                    this.lastNumber = 0;
+                    break;
+    
+                case '%':
+                    if(this._operation.length == 0)
+                    {
+                        this.displayCalc = 0;
                         this.lastNumber = 0;
+                        this.lastOperator = '';
+                        this.result = this.clearResult();
+                    }
+                    else
+                    {
+                        this.getResult(this.lastNumber, '%');
+                    }    
                         
-                        break;
+                    break;
     
-                    case '/':
-                        this.addOperation('/');
-                        if(this.lastNumber != 0)
-                        {
-                            this.getResult(this.lastNumber, this.lastOperator);
-                        }
-                        this.lastOperator = '/';
-                        this.lastNumber = 0;
-                        break;
-    
-                    case '%':
-                        if(this._operation.length == 0)
-                        {
-                            this.displayCalc = 0;
-                            this.lastNumber = 0;
-                            this.lastOperator = '';
-                            this.result = this.clearResult();
-                        }
-                        else
-                        {
-                            this.getResult(this.lastNumber, '%');
-                        }    
+                case 'Enter':
+                case '=':
+                    this.getResult(this.lastNumber, this.lastOperator);
+                    this.displayCalc = this.result[this.result.length - 1];
                         
-                        break;
+                    break;
     
-                    case 'Enter':
-                    case '=':
-                        this.getResult(this.lastNumber, this.lastOperator);
-                        this.displayCalc = this.result[this.result.length - 1];
+                case '.':
+                case ',':
+                    if(this.lastNumber == 0 && this.lastNumber.toString().length === 1)
+                    {
+                        this.lastNumber += '.';
+                    }
+                    else if(this.lastNumber.indexOf(".") === -1)
+                    {
+                        this.lastNumber += '.';
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    this.displayCalc = this.lastNumber;
                         
-                        break;
+                    break;
     
-                    case '.':
-                    case ',':
-                        if(this.lastNumber == 0 && this.lastNumber.toString().length === 1)
-                        {
-                            this.lastNumber += '.';
-                        }
-                        else if(this.lastNumber.indexOf(".") === -1)
-                        {
-                            this.lastNumber += '.';
-                        }
-                        else
-                        {
-                            return;
-                        }
-                        this.displayCalc = this.lastNumber;
+                case '0': case '1': case '2': case '3': case '4': case '5':
+                case '6': case '7': case '8': case '9':
+                    if(this.lastNumber === 0)
+                    {
+                        this.lastNumber = e.key;
+                    }
+                    else if(this._operation.length == 0 && this.lastNumber.length < 10)
+                    {
+                        this.lastNumber += e.key;
+                    }
+                    else if(isNaN(this._operation[this._operation.length - 1]) && this.lastNumber.length < 10)
+                    {
+                        this.lastNumber += e.key;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    this.displayCalc = this.lastNumber;
                         
-                        break;
-    
-                    case '0': case '1': case '2': case '3': case '4': case '5':
-                    case '6': case '7': case '8': case '9':
-                        if(this.lastNumber === 0)
-                        {
-                            this.lastNumber = e.key;
-                        }
-                        else if(this._operation.length == 0 && this.lastNumber.length < 10)
-                        {
-                            this.lastNumber += e.key;
-                        }
-                        else if(isNaN(this._operation[this._operation.length - 1]) && this.lastNumber.length < 10)
-                        {
-                            this.lastNumber += e.key;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                        this.displayCalc = this.lastNumber;
-                        
-                        break;
+                    break;
                     
-                    case 'c':
-                        if(e.ctrlKey) this.copyToClipboard;
-                        break;
-
-                    default:
-                        this.setError();
-                        
-                        break;
-                }
+                case 'c':
+                    if(e.ctrlKey) this.copyToClipboard();
+                    break;
             }
         })
     }
