@@ -34,12 +34,13 @@ class CalcController
         document.addEventListener("paste", e => {
             let text = e.clipboardData.getData("Text");
 
-            console.log(text);
+            this.displayCalc = !isNaN(text) ? text : 0;
         })
     }
     initialize()
     {
         this.setDisplayDateTime();
+        this.pasteFromClipboard();
 
         setInterval(() => {
             this.setDisplayDateTime();
