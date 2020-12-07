@@ -29,6 +29,14 @@ class CalcController
 
         input.remove();
     }
+    pasteFromClipboard()
+    {
+        document.addEventListener("paste", e => {
+            let text = e.clipboardData.getData("Text");
+
+            console.log(text);
+        })
+    }
     initialize()
     {
         this.setDisplayDateTime();
