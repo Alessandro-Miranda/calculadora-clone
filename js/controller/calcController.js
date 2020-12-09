@@ -80,7 +80,6 @@ class CalcController
                 case '+':
                 case '-':
                 case '*':
-    
                     this.addOperation(e.key);
                     this.lastOperator = e.key;
                     this.getResult(this.lastNumber, this.lastOperator);
