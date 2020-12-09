@@ -65,8 +65,8 @@ class CalcController
     /*Método para inicializar os eventos de teclado*/
     initKeyBoard()
     {
-        document.addEventListener("keyup", e=>{
-            
+        document.addEventListener("keyup", e => {
+
             switch(e.key)
             {
                 case 'Escape':
