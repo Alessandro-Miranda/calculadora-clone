@@ -49,7 +49,7 @@ class CalcController
         }, 1000);
 
         document.querySelectorAll(".btn-ac").forEach(btn => {
-            btn.addEventListener("dblclick", e => {
+            btn.addEventListener("dblclick", () => {
                 this.toggleAudio();
             })
         })
