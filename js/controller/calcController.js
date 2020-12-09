@@ -4,6 +4,7 @@ class CalcController
     {
         /*indica que o atributo é privado. Por convenção quando tiver o ._ não
         chamamos o atributo ou método diretamente*/
+        this._audioOnOff = false;
         this._displayCalcEl = document.querySelector("#display");
         this._timeEl = document.querySelector("#hora");
         this._dateEl = document.querySelector("#data");
@@ -44,7 +45,9 @@ class CalcController
 
         setInterval(() => {
             this.setDisplayDateTime();
-        }, 1000)
+        }, 1000);
+
+        this.audioPlay();
     }
     /*Função que inicializa os eventos nos botões*/
     initButtonsEvents()
