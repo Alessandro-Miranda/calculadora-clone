@@ -4,7 +4,7 @@ class CalcController
     {
         /*indica que o atributo é privado. Por convenção quando tiver o ._ não
         chamamos o atributo ou método diretamente*/
-        
+        this._audio = new Audio("click.mp3");
         this._audioOnOff = false;
         this._displayCalcEl = document.querySelector("#display");
         this._timeEl = document.querySelector("#hora");
@@ -58,6 +58,10 @@ class CalcController
     {
         this._audioOnOff = !this._audioOnOff;
     }
+    playAudio()
+    {
+        this._audioOnOff && this._audio.play();
+    }
     /*Função que inicializa os eventos nos botões*/
     initButtonsEvents()
     {
@@ -78,6 +82,8 @@ class CalcController
     initKeyBoard()
     {
         document.addEventListener("keyup", e => {
+            
+            this.playAudio();
 
             switch(e.key)
             {
@@ -187,6 +193,8 @@ class CalcController
     /*Função para ações nos clicks dos botões*/
     execBtn(value)
     {
+        this.playAudio();
+
         switch(value)
         {
             case 'ac':
