@@ -337,22 +337,50 @@ class CalcController
             this.lastNumber /= 100;
             this.addOperation('*');
             this.lastOperator = '*';
-            this.displayCalc = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
-            this.result = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
+            try
+            {
+                this.displayCalc = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
+                this.result = eval(this.result[this.result.length - 1] + this.lastOperator + this.lastNumber);
+            }
+            catch(e)
+            {
+                return;
+            }
         }
         else
         {
             if(this.lastNumber != 0)
             {
-                this.result = eval(this.result[this.result.length - 1] + operator + value);
-                this.addOperation(operator + value);
+                try
+                {
+                    this.result = eval(this.result[this.result.length - 1] + operator + value);
+                    this.addOperation(operator + value);
+                }
+                catch(e)
+                {
+                    return;
+                }
             }
             else if(this.lastNumber == 0)
             {
-                this.displayCalc = eval(this.result[this.result.length - 1] + "" + this._operation[this._operation.length - 1]);
-                this.result = eval(this.result[this.result.length - 1] + "" + this._operation[this._operation.length - 1]);
+                try
+                {
+                    this.displayCalc = eval(this.result[this.result.length - 1] + "" + this._operation[this._operation.length - 1]);
+                    this.result = eval(this.result[this.result.length - 1] + "" + this._operation[this._operation.length - 1]);
+                }
+                catch(e)
+                {
+                    return;
+                }
             }
-            this.displayCalc = eval(this.result[this.result.length - 1] + operator + value);
+            try
+            {
+                this.displayCalc = eval(this.result[this.result.length - 1] + operator + value);
+            }
+            catch(e)
+            {
+                return;
+            }
         }
         this.lastNumber = 0;
     }
