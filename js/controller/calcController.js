@@ -60,7 +60,7 @@ class CalcController
     }
     playAudio()
     {
-        this._audioOnOff && this._audio.play();
+        this._audioOnOff && (this._audio.currentTime = 0, this._audio.play());
     }
     /*Função que inicializa os eventos nos botões*/
     initButtonsEvents()
